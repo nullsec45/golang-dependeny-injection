@@ -17,7 +17,7 @@ func InitalizedService(isError bool) (*SimpleService, error) {
 	simpleService, err := NewSimpleService(simpleRepository)
 	if err != nil {
 		return nil, err
-	}
+	}	
 	return simpleService, nil
 }
 
@@ -37,8 +37,28 @@ func InitializedFooBarService() *FooBarService {
 	return fooBarService
 }
 
+func InitializedHelloService() *HelloService {
+	sayHelloImpl := NewSayHelloImpl()
+	helloService := NewSayHelloService(sayHelloImpl)
+	return helloService
+}
+
+func InitializedFooBar() *FooBar {
+	foo := NewFoo()
+	bar := NewBar()
+	fooBar := &FooBar{
+		Foo: foo,
+		Bar: bar,
+	}
+	return fooBar
+}
+
 // injector.go:
 
 var fooSet = wire.NewSet(NewFooRepository, NewFooService)
 
 var barSet = wire.NewSet(NewBarRepository, NewBarService)
+
+var helloSet = wire.NewSet(
+	NewSayHelloImpl, wire.Bind(new(SayHello), new(*SayHelloImpl)),
+)
