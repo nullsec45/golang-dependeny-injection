@@ -25,3 +25,9 @@ func TestSimpleServiceSuccess(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, simpleService)
 }
+
+func TestConnection(t *testing.T) {
+	connection, cleanup := simple.InitializedConnection("Database")
+	assert.NotNil(t, connection)
+	cleanup()
+}
